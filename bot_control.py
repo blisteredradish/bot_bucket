@@ -6,9 +6,13 @@ class MyWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="button box")
 
-        self.button = Gtk.Button(label="command")
-        self.button.connect("clicked", self.on_button_clicked)
-        self.add(self.button)
+        self.button1 = Gtk.Button(label="command1")
+        self.button1.connect("clicked", self.on_button_clicked)
+        self.add(self.button1)
+
+        self.button2 = Gtk.Button(label="command2")
+        self.button2.connect("clicked", self.on_button_clicked)
+        self.add(self.button2)
 
     def on_button_clicked(self, widget):
         print ("command")
