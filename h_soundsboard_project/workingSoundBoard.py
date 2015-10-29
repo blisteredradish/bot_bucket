@@ -47,8 +47,7 @@ class soundWindow(Gtk.Window):
         lightButton0=Gtk.Button.new_with_label("kill message")
         lightButton0.connect("clicked", self.kill_xmessage)
         box2.pack_start(lightButton0,True,True,0)
-        
-        
+          
         box0.pack_start(box1,True,True,0)
         box0.pack_start(box2,True,True,0)
         self.add(box0)
@@ -69,7 +68,6 @@ class soundWindow(Gtk.Window):
     def kill_xmessage(self,widget):
         os.system('killall xmessage')
 
-        
 soundWindow().connect("delete-event", Gtk.main_quit)
 soundWindow().show_all()
 Gtk.main()
