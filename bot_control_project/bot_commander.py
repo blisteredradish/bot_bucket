@@ -10,10 +10,7 @@ RIGHT_IMG=Gtk.Image.new_from_file('../../arrow-right.png')
 LEFT_IMG=Gtk.Image.new_from_file('../../arrow-left.png')
 DIR_LABEL=Gtk.Label("Use Keypad")
 class controlWindow(Gtk.Window):
-    def __init__(self):
-
- 
-        
+    def __init__(self):      
         Gtk.Window.__init__(self,title="Bot Commander")
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_size_request(240,150) 
@@ -24,21 +21,18 @@ class controlWindow(Gtk.Window):
         dir_grid=Gtk.Grid()
         button_box.set_homogeneous(False)
         button_grid=Gtk.Grid()
-        
 ##Window Label Section
         label1=Gtk.Label("Robot Commander")
-        label2=Gtk.Label("Now with Arrow Keys!")
         title_box.pack_start(label1,True,True,0)
-##        title_box.pack_start(label2,True,True,0)
 ##Button Section
         button1=Gtk.Button.new_with_label("1")
-        button2=Gtk.Button.new_with_label("v")
+        button2=Gtk.Button(None,image=DOWN_IMG)
         button3=Gtk.Button.new_with_label("3")
-        button4=Gtk.Button.new_with_label("<")
+        button4=Gtk.Button(None,image=LEFT_IMG)
         button5=Gtk.Button.new_with_label("5")
-        button6=Gtk.Button.new_with_label(">")
+        button6=Gtk.Button(None,image=RIGHT_IMG)
         button7=Gtk.Button.new_with_label("7")
-        button8=Gtk.Button.new_with_label("^")
+        button8=Gtk.Button(None,image=UP_IMG)
         button9=Gtk.Button.new_with_label("9")
         button0=Gtk.Button.new_with_label("0")
 
@@ -55,24 +49,13 @@ class controlWindow(Gtk.Window):
         button_grid.attach_next_to(button5,button2,Gtk.PositionType.TOP,1,1)
         button_grid.attach_next_to(button6,button3,Gtk.PositionType.TOP,1,1)
         button_grid.attach_next_to(button7,button4,Gtk.PositionType.TOP,1,1)
-
         button_grid.attach_next_to(button8,button5,Gtk.PositionType.TOP,1,1)
         button_grid.attach_next_to(button9,button6,Gtk.PositionType.TOP,1,1)
 
         button_box.pack_start(button_grid,True,True,0)
         
-        dir_grid.attach(UP_IMG,   1,1,1,1)
-        dir_grid.attach(DOWN_IMG, 1,3,1,1)
-        dir_grid.attach(LEFT_IMG, 0,2,1,1)
-        dir_grid.attach(RIGHT_IMG,2,2,1,1)
-        dir_grid.attach_next_to(DIR_LABEL,UP_IMG,Gtk.PositionType.TOP,1,1)
-##        grid1.attach(title_box,1,-1,1,1)
-        grid1.attach(button_box,0,0,1,1)
-        grid1.attach(dir_grid,1,0,1,1)
-        
-
         box1.pack_start(title_box,True,True,0)
-        box1.pack_start(grid1,True,True,0)
+        box1.pack_start(button_box,True,True,0)
         
         self.add(box1)
         
