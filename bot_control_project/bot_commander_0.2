@@ -4,8 +4,8 @@ from gi.repository import Gtk
 import serial
 
 
-SER=serial.Serial(None,9600)
-##SER=serial.Serial('/dev/ttyUSB0,9600)
+##SER=serial.Serial(None,9600)
+SER=serial.Serial('/dev/ttyUSB0',9600)
 
 UP=Gtk.Image.new_from_file('./arrow-up.png')
 DOWN=Gtk.Image.new_from_file('./arrow-down.png')
@@ -22,7 +22,7 @@ class NumGridWin(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_border_width(10)
         self.connect("key-press-event", self.key_watch)
-        self.connect("key-release-event", self.key_watch)
+        self.connect("key-release-event", self.key_watch_release)
         box0=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         grid0=Gtk.Grid()
         bt0=Gtk.Button.new_with_label("0")
@@ -41,7 +41,8 @@ class NumGridWin(Gtk.Window):
                 i=Gtk.Button(None,image=RIGHT)
             else:
                 i=Gtk.Button.new_with_label('{}'.format(y))
-            i.connect("clicked",self.clicked,y)
+            i.connect("pressed",self.clicked,y)
+            i.connect("released",self.clicked,'0')
             grid0.attach(i, column,-row,1,1)
             column=column+1
             if column==3:
@@ -55,7 +56,6 @@ class NumGridWin(Gtk.Window):
     def clicked(self,widget,y):
         if y==8:
             print('UP')
-            print(y.keyval)
             try:
                 SER.write(b'1')
             except ValueError:
@@ -92,7 +92,20 @@ class NumGridWin(Gtk.Window):
                 print('Using Port None!')
 
     def key_watch(self,widget,event):
-        print(event.keyval)
+
+        if event.keyval==65362:
+            SER.write(b'1')
+        elif event.keyval==65364:
+            SER.write(b'2')
+        elif event.keyval==65361:
+            SER.write(b'3')
+        elif event.keyval==65363:
+            SER.write(b'4')
+        else:
+            SER.write(b'0')
+    def key_watch_release(self,widget,event):
+        SER.write(b'0')
+
 
 numgrid=NumGridWin()
 numgrid.connect("delete-event", Gtk.main_quit)
