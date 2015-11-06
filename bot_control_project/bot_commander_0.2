@@ -21,6 +21,8 @@ class NumGridWin(Gtk.Window):
         self.set_titlebar(hb)
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_border_width(10)
+        self.connect("key-press-event", self.key_watch)
+        self.connect("key-release-event", self.key_watch)
         box0=Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         grid0=Gtk.Grid()
         bt0=Gtk.Button.new_with_label("0")
@@ -53,6 +55,7 @@ class NumGridWin(Gtk.Window):
     def clicked(self,widget,y):
         if y==8:
             print('UP')
+            print(y.keyval)
             try:
                 SER.write(b'1')
             except ValueError:
@@ -86,7 +89,10 @@ class NumGridWin(Gtk.Window):
             try:
                 SER.write(b'0')
             except ValueError:
-                print('Using Port None!')                
+                print('Using Port None!')
+
+    def key_watch(self,widget,event):
+        print(event.keyval)
 
 numgrid=NumGridWin()
 numgrid.connect("delete-event", Gtk.main_quit)
