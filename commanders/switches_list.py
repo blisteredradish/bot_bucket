@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 
 from gi.repository import Gtk
+import serial
+import struct
+
+SER=serial.Serial('/dev/ttyUSB0',9600)
 
 def ReadFile():
 
@@ -27,13 +31,13 @@ class SwitchWindow(Gtk.Window):
         switchlist=ReadFile()
         z=0
         for i in switchlist:
-            a=i
-            z=z+1
 #            print ('RUNNING!!')
+            a=i
             y=i
+            z=z+1
             y=Gtk.Label(i.rstrip('\n'))
             i=Gtk.Switch()
-            i.connect('notify::active',self.on_switch_activated,a,z)
+            i.connect('notify::active',self.on_switch_activated,z,a)
             i.set_active(False)
             box1.pack_start(y,True,True,0)
             box1.pack_start(i,True,True,0)
@@ -43,20 +47,16 @@ class SwitchWindow(Gtk.Window):
         box0.pack_start(box2,True,True,0)
         self.add(box0)
 
-    def on_switch_activated(self,switch,gparam,a,z):
+    def on_switch_activated(self,switch,gparam,z,a):
 #        print(z,' ',switch.get_active())
 
         if switch.get_active():
-            print (a.rstrip('\n'),' ',z,' ','ON')
+            print (a,' ','ON')
+            SER.write(struct.pack('>B',z))
         else:
-            print (a.rstrip('\n'),' ',z,' ','OFF')
-
-
-
-        
-            
-
-
+            z=z+20
+            print (a,' ','OFF')
+            SER.write(struct.pack('>B',z))
 win=SwitchWindow()
 win.connect("delete-event",Gtk.main_quit)
 win.show_all()
