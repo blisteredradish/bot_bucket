@@ -41,8 +41,16 @@ class SwitchWindow(Gtk.Window):
             i.set_active(False)
             box1.pack_start(y,True,True,0)
             box1.pack_start(i,True,True,0)
-        REFRESH=Gtk.Button.new_with_label('Refresh')
-        box2.pack_start(REFRESH,True,True,0)
+        SHOW=Gtk.Button.new_with_label('Show')
+        SHOW.connect('clicked', self.show_clicked)
+        ON=Gtk.Button.new_with_label('On')
+        OFF=Gtk.Button.new_with_label('Off')
+        ON.connect('clicked',self.on_clicked)
+        OFF.connect('clicked',self.off_clicked)
+
+        box2.pack_start(SHOW,True,True,0)
+        box2.pack_start(ON,True,True,0)
+        box2.pack_start(OFF,True,True,0)
         box0.pack_start(box1,True,True,0)   
         box0.pack_start(box2,True,True,0)
         self.add(box0)
@@ -51,12 +59,21 @@ class SwitchWindow(Gtk.Window):
 #        print(z,' ',switch.get_active())
 
         if switch.get_active():
-            print (a,' ','ON')
+#            print (a,' ','ON')
             SER.write(struct.pack('>B',z))
         else:
             z=z+20
-            print (a,' ','OFF')
+#            print (a,' ','OFF')
             SER.write(struct.pack('>B',z))
+    def show_clicked(self,widget):
+        x=50
+        SER.write(struct.pack('>B',x))
+    def on_clicked(self,widget):
+        for i in range(0,11):
+            SER.write(struct.pack('>B',i))
+    def off_clicked(self,widget):
+        for i in range(20,31):
+            SER.write(struct.pack('>B',i))
 win=SwitchWindow()
 win.connect("delete-event",Gtk.main_quit)
 win.show_all()
