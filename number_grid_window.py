@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
 from gi.repository import Gtk
+import serial
+import struct
+SER=serial.Serial('/dev/ttyUSB0',9600)
 
 UP=Gtk.Image.new_from_file('./arrow-up.png')
 DOWN=Gtk.Image.new_from_file('./arrow-down.png')
@@ -17,7 +20,7 @@ class NumGridWin(Gtk.Window):
         bt0.connect("clicked", self.clicked,0)
         row=0
         column=0
-        for i in range (1,10):
+        for i in range (1,22):
             y=i
             if y==8:
                 i=Gtk.Button(None,image=UP)
@@ -42,6 +45,7 @@ class NumGridWin(Gtk.Window):
 
     def clicked(self,widget,y):
         print (y)
+        SER.write(struct.pack('>B',y))
 
 
 numgrid=NumGridWin()

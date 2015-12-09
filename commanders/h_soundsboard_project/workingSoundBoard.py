@@ -3,8 +3,9 @@ from gi.repository import Gtk
 import os
 import serial
 
-ser=serial.Serial('/dev/ttyUSB0', 9600)
+##ser=serial.Serial('/dev/ttyUSB0', 9600)
 
+ser=serial.Serial(None, 9600)
 
 
 def populate_sound_list():
