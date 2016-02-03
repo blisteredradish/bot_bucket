@@ -10,7 +10,10 @@ BLU=(0,0,255)
 GRN=(0,255,0)
 COLORLIST=(BLK,RED,BLU,GRN)
 
-
+class Blocker(pygame.sprite.Sprite):
+    def __init__(self,color,xsize=10,ysize=10):
+        pygame.sprite.Sprite.__init__(self)
+        
         
 class Tester(pygame.sprite.Sprite):
     def __init__(self,color,xsize=10,ysize=10,xstart=30,ystart=0):
@@ -23,32 +26,30 @@ class Tester(pygame.sprite.Sprite):
     def update(self,x):
         speed=5
         key=pygame.key.get_pressed()
-        if key[pygame.K_UP]:
-        
+        if key[pygame.K_UP]:      
             return x
         elif key[pygame.K_LEFT]:
-            if (x-speed)<0: return x
+            if (x-speed)<0: return WIDTH
             x-=speed
             return x
         elif key[pygame.K_RIGHT]:
-            if (x+speed)>(WIDTH-10): return x
+            if (x+speed)>(WIDTH-10): return 0
             x+=speed
             return x
         if key[pygame.K_DOWN]:
-            print('down')
             return x
 #        if key[pygame.K_LEFT]:
         else:
-            return x
-        
+            return x  
     def fall(self,y,rest=False):
+        speed=10
         while not rest:
-            y+=1
+            y+=speed
             return y
         return y
     def rest():
         pass
-
+    
 def main():
     pygame.init
     all_sprites=pygame.sprite.Group()
@@ -69,7 +70,7 @@ def main():
         if faller.rect.y<670:
             faller.rect.y=(faller.fall(faller.rect.y))
         else:
-            faller.rect.y=(faller.fall(faller.rect.y,True))
+            faller.rect.y=0
         screen.fill(GRN)
         all_sprites.draw(screen)
         pygame.display.flip()
