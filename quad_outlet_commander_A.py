@@ -1,7 +1,7 @@
-import pygame, os
+import pygame, os, serial, struct
 
-WIDTH=200
-HEIGHT=110
+WIDTH=400
+HEIGHT=400
 SCRNSZ=(WIDTH,HEIGHT)
 WHT=(255,255,255)
 BLK=(0,0,0)
@@ -10,6 +10,7 @@ BLU=(0,0,255)
 GRN=(0,255,0)
 COLORLIST=(BLK,RED,BLU,GRN)
 CLOCK=pygame.time.Clock()
+SER=serial.Serial('/dev/ttyUSB0',9600)
 
 os.environ['SDL_VIDEO_WINDOW_POS'] =("100,100")
 
@@ -47,17 +48,20 @@ def check_state_on(plug,state,current_state):
         return state
     elif state!=current_state and (state==1 or state==2 or state==3 or state==4):
         plug.image.fill(GRN)
-        print(state)
+##        print(state)
+        SER.write(struct.pack('>B',state))
         return state
     elif state!=current_state and (state==21 or state==22 or state==23 or state==24):
         plug.image.fill(BLK)
-        print(state)
+##        print(state)
+        SER.write(struct.pack('>B',state))
         return state
 
         
 
     
 def main():
+    SER.open()
     pygame.init()
     win_icon=pygame.Surface([10,10])
     win_icon.fill(BLU)
@@ -69,10 +73,10 @@ def main():
     state2=22
     state3=23
     state4=24
-    plug1=Outlet(BLK,20,20)
-    plug2=Outlet(BLK,20,65)
-    plug3=Outlet(BLK,65,20)
-    plug4=Outlet(BLK,65,65)
+    plug1=Outlet(BLK,100,20)
+    plug2=Outlet(BLK,100,65)
+    plug3=Outlet(BLK,100,20)
+    plug4=Outlet(BLK,100,65)
     mover=Outlet(WHT,100,45)
     mover2=Outlet(RED,100,45)
     plug_list=(led0,plug1,plug2,plug3,plug4)
