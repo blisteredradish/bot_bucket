@@ -14,8 +14,8 @@ CLOCK=pygame.time.Clock()
 
 os.environ['SDL_VIDEO_WINDOW_POS'] =("100,100")
 
-def text(screen,words='Test'):
-    background=pygame.Surface((100,20))
+def text(screen,words='Test',xsize=100,ysize=20,xpos=50,ypos=150):
+    background=pygame.Surface((xsize,ysize))
     background=background.convert()
     background.fill(BLU)
 
@@ -24,7 +24,7 @@ def text(screen,words='Test'):
     textpos=text.get_rect()
     textpos.centerx=background.get_rect().centerx
     background.blit(text,textpos)
-    screen.blit(background,(0,0))
+    screen.blit(background,(xpos,ypos))
 
 
 class Outlet(pygame.sprite.Sprite):
@@ -131,7 +131,10 @@ def main():
             state4=check_state_on(plug4,24,state4)
                     
         screen.fill(BLU)
-        text(screen,'from main')
+        text(screen,'One',100,20,50,150)
+        text(screen,'Two',100,20,50,250)
+        text(screen,'Three',100,20,250,150)
+        text(screen,'Four',100,20,250,250)
         all_sprites.draw(screen)
     
         pygame.display.flip()
