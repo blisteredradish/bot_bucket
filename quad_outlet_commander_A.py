@@ -1,6 +1,6 @@
 import pygame, os
 
-WIDTH=140
+WIDTH=200
 HEIGHT=110
 SCRNSZ=(WIDTH,HEIGHT)
 WHT=(255,255,255)
@@ -23,24 +23,24 @@ class Outlet(pygame.sprite.Sprite):
         self.rect.y=ystart
         self.image.fill(color)
         
-    def update(self):
-        key=pygame.key.get_pressed()
-        if key[pygame.K_q]:
-            return(1)
-        elif key[pygame.K_w]:
-            return(2)
-        elif key[pygame.K_e]:
-            return(3)
-        elif key[pygame.K_r]:
-            return(4)
-        elif key[pygame.K_a]:
-            return(21)
-        elif key[pygame.K_s]:
-            return(22)
-        elif key[pygame.K_d]:
-            return(23)
-        elif key[pygame.K_f]:
-            return(24)
+##    def update(self):
+##        key=pygame.key.get_pressed()
+##        if key[pygame.K_q]:
+##            return(1)
+##        elif key[pygame.K_w]:
+##            return(2)
+##        elif key[pygame.K_e]:
+##            return(3)
+##        elif key[pygame.K_r]:
+##            return(4)
+##        elif key[pygame.K_a]:
+##            return(21)
+##        elif key[pygame.K_s]:
+##            return(22)
+##        elif key[pygame.K_d]:
+##            return(23)
+##        elif key[pygame.K_f]:
+##            return(24)
         
 def check_state_on(plug,state,current_state):
     if state==current_state:
@@ -59,6 +59,10 @@ def check_state_on(plug,state,current_state):
     
 def main():
     pygame.init()
+    win_icon=pygame.Surface([10,10])
+    win_icon.fill(BLU)
+    pygame.display.set_caption('quad outlet')
+    pygame.display.set_icon(win_icon)
     screen=pygame.display.set_mode(SCRNSZ)
     led0=Outlet(RED,10,10,5,5)
     state1=21
@@ -70,6 +74,7 @@ def main():
     plug3=Outlet(BLK,65,20)
     plug4=Outlet(BLK,65,65)
     mover=Outlet(WHT,100,45)
+    mover2=Outlet(RED,100,45)
     plug_list=(led0,plug1,plug2,plug3,plug4)
     all_sprites=pygame.sprite.Group()
     moving_sprites=pygame.sprite.Group()
@@ -78,7 +83,9 @@ def main():
         plug_sprites.add(i)
         all_sprites.add(i)
     all_sprites.add(mover)
+    all_sprites.add(mover2)
     moving_sprites.add(mover)
+    moving_sprites.add(mover2)
         
     running=True
     while running:
@@ -87,22 +94,20 @@ def main():
                 running=False
             if event.type==pygame.KEYDOWN:
                 state=led0.update()
-##                for i in range(1,5):
-##                    if i==state:
-##                        plug_list[state].image.fill(GRN)
-##                for i in range(21,25):
-##                    if i==state:
-##                        state-=20
-##                        plug_list[state].image.fill(BLK)
             mouse_but=pygame.mouse.get_pressed()
             if mouse_but[0]==1:
                 pos=pygame.mouse.get_pos()
                 mover.rect.x=pos[0]
                 mover.rect.y=pos[1]
+            elif mouse_but[2]==1:
+                pos=pygame.mouse.get_pos()
+                mover2.rect.x=pos[0]
+                mover2.rect.y=pos[1]
         hit_one=pygame.sprite.spritecollide(plug1,moving_sprites,False)
         hit_two=pygame.sprite.spritecollide(plug2,moving_sprites,False)
         hit_three=pygame.sprite.spritecollide(plug3,moving_sprites,False)
         hit_four=pygame.sprite.spritecollide(plug4,moving_sprites,False)
+        
         if hit_one:
             
             state1=check_state_on(plug1,1,state1)
