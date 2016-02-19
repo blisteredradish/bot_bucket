@@ -10,9 +10,21 @@ BLU=(0,0,255)
 GRN=(0,255,0)
 COLORLIST=(BLK,RED,BLU,GRN)
 CLOCK=pygame.time.Clock()
-SER=serial.Serial('/dev/ttyUSB0',9600)
+##SER=serial.Serial("/dev/zero",9600)
 
 os.environ['SDL_VIDEO_WINDOW_POS'] =("100,100")
+
+def text(screen,words='Test'):
+    background=pygame.Surface((100,20))
+    background=background.convert()
+    background.fill(BLU)
+
+    font=pygame.font.Font(None,18)
+    text=font.render(words,1,(WHT))
+    textpos=text.get_rect()
+    textpos.centerx=background.get_rect().centerx
+    background.blit(text,textpos)
+    screen.blit(background,(0,0))
 
 
 class Outlet(pygame.sprite.Sprite):
@@ -24,59 +36,42 @@ class Outlet(pygame.sprite.Sprite):
         self.rect.y=ystart
         self.image.fill(color)
         
-##    def update(self):
-##        key=pygame.key.get_pressed()
-##        if key[pygame.K_q]:
-##            return(1)
-##        elif key[pygame.K_w]:
-##            return(2)
-##        elif key[pygame.K_e]:
-##            return(3)
-##        elif key[pygame.K_r]:
-##            return(4)
-##        elif key[pygame.K_a]:
-##            return(21)
-##        elif key[pygame.K_s]:
-##            return(22)
-##        elif key[pygame.K_d]:
-##            return(23)
-##        elif key[pygame.K_f]:
-##            return(24)
-        
+
 def check_state_on(plug,state,current_state):
     if state==current_state:
         return state
     elif state!=current_state and (state==1 or state==2 or state==3 or state==4):
         plug.image.fill(GRN)
-##        print(state)
-        SER.write(struct.pack('>B',state))
+        print(state)
+##        SER.write(struct.pack('>B',state))
         return state
     elif state!=current_state and (state==21 or state==22 or state==23 or state==24):
         plug.image.fill(BLK)
-##        print(state)
-        SER.write(struct.pack('>B',state))
+        print(state)
+##        SER.write(struct.pack('>B',state))
         return state
 
         
 
     
 def main():
-    SER.open()
+##    SER.open()
     pygame.init()
+
     win_icon=pygame.Surface([10,10])
     win_icon.fill(BLU)
     pygame.display.set_caption('quad outlet')
     pygame.display.set_icon(win_icon)
     screen=pygame.display.set_mode(SCRNSZ)
-    led0=Outlet(RED,10,10,5,5)
+    led0=Outlet(RED,195,10,5,5)
     state1=21
     state2=22
     state3=23
     state4=24
-    plug1=Outlet(BLK,100,20)
-    plug2=Outlet(BLK,100,65)
-    plug3=Outlet(BLK,100,20)
-    plug4=Outlet(BLK,100,65)
+    plug1=Outlet(BLK,165,165)
+    plug2=Outlet(BLK,165,205)
+    plug3=Outlet(BLK,205,165)
+    plug4=Outlet(BLK,205,205)
     mover=Outlet(WHT,100,45)
     mover2=Outlet(RED,100,45)
     plug_list=(led0,plug1,plug2,plug3,plug4)
@@ -135,8 +130,10 @@ def main():
         else:
             state4=check_state_on(plug4,24,state4)
                     
-        screen.fill(BLU) 
+        screen.fill(BLU)
+        text(screen,'from main')
         all_sprites.draw(screen)
+    
         pygame.display.flip()
         CLOCK.tick(60)
 
