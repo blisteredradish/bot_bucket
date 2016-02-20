@@ -138,7 +138,7 @@ def main():
         all_sprites.draw(screen)
     
         pygame.display.flip()
-        CLOCK.tick(60)
+        CLOCK.tick(15)
 
 pygame.quit()
 
