@@ -96,12 +96,12 @@ def main():
             mouse_but=pygame.mouse.get_pressed()
             if mouse_but[0]==1:
                 pos=pygame.mouse.get_pos()
-                mover.rect.x=pos[0]
-                mover.rect.y=pos[1]
+                mover.rect.x=(pos[0]-15)
+                mover.rect.y=(pos[1]-15)
             elif mouse_but[2]==1:
                 pos=pygame.mouse.get_pos()
-                mover2.rect.x=pos[0]
-                mover2.rect.y=pos[1]
+                mover2.rect.x=(pos[0]-15)
+                mover2.rect.y=(pos[1]-15)
         hit_one=pygame.sprite.spritecollide(plug1,moving_sprites,False)
         hit_two=pygame.sprite.spritecollide(plug2,moving_sprites,False)
         hit_three=pygame.sprite.spritecollide(plug3,moving_sprites,False)
